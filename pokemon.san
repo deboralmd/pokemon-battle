@@ -1,0 +1,45 @@
+identifiers
+
+    T1 = 6
+    T2 = 3 
+    T3 = 12
+    T4 = 3
+    T5 = 2
+    T6 = 4
+    T7 = 12
+    T8 = 3
+    T9 = 3
+
+events
+    syn EA (T1);
+    syn UI (T2);
+    loc VC (T3);
+    loc CP (T4);
+    loc PE (T5);
+    loc PC (T6);
+    loc GC (T7);
+    syn PD (T8);
+    syn VA (T9);
+
+partial reachability = 
+
+network POKEMON_BATTLE (continuous)
+
+    aut TREINADOR
+        stt ANDANDO to (BATALHANDO) EA   
+        stt ANDANDO to (CP)  CP
+        stt ANDANDO to (USAR_ITEM) UI 
+        stt BATALHANDO to (ANDANDO) VC   
+        stt CP to (ANDANDO) VC
+        stt USAR_ITEM to (ANDANDO) VC    
+        stt BATALHANDO to (CP) PD   
+    
+    aut POKEMON
+
+    aut CARTEIRA
+
+    aut BATALHA
+    
+results
+
+
