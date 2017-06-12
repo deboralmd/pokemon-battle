@@ -21,7 +21,7 @@ events
     syn PD (T8);
     syn VA (T9);
 
-partial reachability = 
+partial reachability = ((st TREINADOR == ANDANDO) && (st POKEMON == SAUDAVEL) && (st CARTEIRA == GUARDADA) && (st BATALHA == NAO_BATALHANDO));
 
 network POKEMON_BATTLE (continuous)
 
@@ -41,5 +41,7 @@ network POKEMON_BATTLE (continuous)
     aut BATALHA
     
 results
+
+
 
 
