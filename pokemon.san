@@ -1,47 +1,78 @@
 identifiers
-
-    T1 = 6
-    T2 = 3 
-    T3 = 12
-    T4 = 3
-    T5 = 2
-    T6 = 4
-    T7 = 12
-    T8 = 3
-    T9 = 3
+    
+    T1 = 6;
+    T2 = 3;
+    T3 = 12;
+    T4 = 3;
+    T5 = 2;
+    T6 = 4;
+    T7 = 12;
+    T8 = 3;
+    T9 = 3;
 
 events
-    syn EA (T1);
-    syn UI (T2);
-    loc VC (T3);
-    loc CP (T4);
-    loc PE (T5);
-    loc PC (T6);
-    loc GC (T7);
-    syn PD (T8);
-    syn VA (T9);
+
+    syn ea (T1);
+    syn ui (T2);
+    syn vc (T3);
+    syn cp (T4);
+    loc pe (T5);
+    loc pc (T6);
+    loc gc (T7);
+    syn pd (T8);
+    syn va (T9);
 
 partial reachability = ((st TREINADOR == ANDANDO) && (st POKEMON == SAUDAVEL) && (st CARTEIRA == GUARDADA) && (st BATALHA == NAO_BATALHANDO));
 
-network POKEMON_BATTLE (continuous)
+network BATTLE (continuous)
 
     aut TREINADOR
-        stt ANDANDO to (BATALHANDO) EA   
-        stt ANDANDO to (CP)  CP
-        stt ANDANDO to (USAR_ITEM) UI 
-        stt BATALHANDO to (ANDANDO) VC   
-        stt CP to (ANDANDO) VC
-        stt USAR_ITEM to (ANDANDO) VC    
-        stt BATALHANDO to (CP) PD   
+        stt ANDANDO to (BATALHANDO) ea   
+        stt ANDANDO to (CP)  cp
+        stt ANDANDO to (USAR_ITEM) ui 
+        stt BATALHANDO to (ANDANDO) vc   
+        stt CP to (ANDANDO) vc
+        stt USAR_ITEM to (ANDANDO) vc
+        stt BATALHANDO to (CP) pd   
     
     aut POKEMON
+        stt SAUDAVEL to (DESMAIADO) pd
+        stt SAUDAVEL to (ENVENENADO) pe
+        stt SAUDAVEL to (CONFUSO) pc
+        stt DESMAIADO to (SAUDAVEL) cp
+        stt ENVENENADO to (SAUDAVEL) cp
+        stt ENVENENADO to (SAUDAVEL) ui
+        stt CONFUSO to (SAUDAVEL) cp
+        stt CONFUSO to (SAUDAVEL) ui
+        stt CONFUSO to (ENVENENADO) pe
 
     aut CARTEIRA
-
-    aut BATALHA
+        stt GUARDADA to (GANHAR_DINHEIRO) va
+        stt GUARDADA to (PERDER_DINHEIRO) pd
+        stt PERDER_DINHEIRO to (GUARDADA) gc
+        stt GANHAR_DINHEIRO to (GUARDADA) gc
     
+    aut BATALHA
+        stt NAO_BATALHANDO to (EM_BATALHA) ea
+        stt EM_BATALHA to (PERDEU_BATALHA) pd
+        stt EM_BATALHA to (GANHOU_BATALHA) va
+        stt PERDEU_BATALHA to (NAO_BATALHANDO) vc
+        stt GANHOU_BATALHA to (NAO_BATALHANDO) vc
+        
 results
 
-
-
-
+    TREINADOR_ANDANDO = (st TREINADOR == ANDANDO);
+    TREINADOR_BATALHANDO = (st TREINADOR == BATALHANDO);
+    TREINADOR_CP = (st TREINADOR == CP);
+    TREINADOR_USAR_ITEM = (st TREINADOR == USAR_ITEM);    
+    POKEMON_SAUDAVEL = (st POKEMON == SAUDAVEL);
+    POKEMON_DESMAIADO = (st POKEMON == DESMAIADO);
+    POKEMON_CONFUSO = (st POKEMON == CONFUSO);
+    POKEMON_ENVENENADO = (st POKEMON == ENVENENADO);    
+    CARTEIRA_GUARDADA = (st CARTEIRA == GUARDADA);
+    CARTEIRA_PERDEU_BATALHA = (st CARTEIRA == PERDEU_BATALHA);
+    CARTEIRA_GANHOU_BATALHA = (st CARTEIRA == GANHOU_BATALHA);    
+    BATALHA_NAO_BATALHANDO = (st BATALHA == NAO_BATALHANDO);
+    BATALHA_EM_BATALHA = (st BATALHA == EM_BATALHA);
+    BATALHA_PERDEU_BATALHA = (st BATALHA == PERDEU_BATALHA);
+    BATALHA_GANHOU_BATALHA = (st BATALHA == GANHOU_BATALHA);
