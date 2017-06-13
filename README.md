@@ -1,2 +1,2 @@
 # pokemon-battle
-Assignment about Stochastic Automata Networks simulating Pokémon actions within the game.
+Assignment about Stochastic Automata Networks simulating some actions within the Pokémon game.
